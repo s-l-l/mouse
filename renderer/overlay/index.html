@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Spotlight - Overlay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body.drawing { cursor: crosshair; }
+    body:not(.drawing) { cursor: default; }
+    #fadeCanvas, #drawCanvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    #drawCanvas { z-index: 2; }
+    #fadeCanvas { z-index: 1; }
+    .edge-glow {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      opacity: 0;
+    }
+    .edge-glow.visible {
+      opacity: 1;
+      box-shadow:
+        inset 0 2px 20px rgba(255,107,53,0.08),
+        inset 0 -2px 20px rgba(255,107,53,0.08),
+        inset 2px 0 20px rgba(255,107,53,0.08),
+        inset -2px 0 20px rgba(255,107,53,0.08);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fadeCanvas"></canvas>
+  <canvas id="drawCanvas"></canvas>
+  <div id="edgeGlow" class="edge-glow"></div>
+  <script src="drawing-engine.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  overflow: hidden;
+}
+
+.settings-container {
+  padding: 24px 28px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+
+/* Shortcut items */
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.shortcut-item label {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.shortcut-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  height: 36px;
+  padding: 0 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.shortcut-input:hover {
+  border-color: rgba(255,255,255,0.25);
+}
+
+.shortcut-input:focus {
+  border-color: #FF6B35;
+  background: rgba(255,107,53,0.08);
+  box-shadow: 0 0 0 2px rgba(255,107,53,0.15);
+}
+
+.shortcut-input .shortcut-keys {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.shortcut-input:focus .shortcut-keys {
+  color: #FF6B35;
+}
+
+/* Slider */
+.slider-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #FF6B35;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #1a1a2e;
+}
+
+.slider-value {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  min-width: 50px;
+  text-align: right;
+  font-family: 'Consolas', monospace;
+}
+
+/* Buttons */
+.settings-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  background: #FF6B35;
+  color: #fff;
+}
+.btn-primary:hover { background: #e85d2a; }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.7);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }

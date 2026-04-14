@@ -1,0 +1,40 @@
+{
+  "name": "mouse-spotlight",
+  "version": "1.0.0",
+  "description": "Professional mouse presentation and annotation tool for Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "keywords": [
+    "presentation",
+    "annotation",
+    "mouse",
+    "spotlight"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^24.13.0"
+  },
+  "build": {
+    "appId": "com.mousespotlight.app",
+    "productName": "Mouse Spotlight",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**",
+      "assets/**"
+    ]
+  }
+}
