@@ -7,6 +7,7 @@
   const fadeValue = document.getElementById('fadeValue');
   const saveBtn = document.getElementById('saveBtn');
   const cancelBtn = document.getElementById('cancelBtn');
+  const closeBtn = document.getElementById('closeBtn');
 
   let currentSettings = {};
   let tempShortcutPresentation = '';
@@ -94,6 +95,10 @@
   });
 
   cancelBtn.addEventListener('click', () => {
+    window.settingsAPI.closeSettings();
+  });
+
+  closeBtn.addEventListener('click', () => {
     window.settingsAPI.closeSettings();
   });
 

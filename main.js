@@ -168,13 +168,52 @@ function sendToolbarBounds() {
 
 function createTray() {
   const { nativeImage } = require('electron');
-  const svg = `data:image/svg+xml,${encodeURIComponent(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-      <circle cx="8" cy="8" r="6" fill="#FF6B35" stroke="#FFF" stroke-width="1"/>
-      <circle cx="8" cy="8" r="2" fill="#FFF"/>
-    </svg>
-  `)}`;
-  const icon = nativeImage.createFromDataURL(svg);
+
+  // Build a 16x16 opaque bitmap for Windows tray (no transparency)
+  const size = 16;
+  const rgba = Buffer.alloc(size * size * 4);
+
+  // Colors (RGBA)
+  const ORANGE = [255, 107, 53, 255];   // #FF6B35
+  const WHITE  = [255, 255, 255, 255];
+  const DARK   = [210, 75, 25, 255];    // darker orange for edge
+
+  // 16x16 pixel art: rounded orange square with white pen icon
+  const pixels = [
+    '................',
+    '...OOOOOOOOO....',
+    '..OOOOOOOOOOO...',
+    '.OOOOOOOOOOOOO..',
+    '.OOOWWWOOOOOOO..',
+    '.OOOWWOOOOOOOO..',
+    '.OOOWWOOOOOOOO..',
+    '.OOOOOWWOOOOOO..',
+    '.OOOOOOWWOOOOO..',
+    '.OOOOOOOWWOOOO..',
+    '.OOOOOOOOWWOOO..',
+    '.OOOOOOOOOWWOO..',
+    '.OOOOOOOOOWWOO..',
+    '.OOOOOOOOOOOOO..',
+    '..OOOOOOOOOOO...',
+    '...OOOOOOOOO....',
+  ];
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      const ch = pixels[y] ? pixels[y][x] : '.';
+      if (ch === 'O') {
+        rgba[i] = ORANGE[0]; rgba[i+1] = ORANGE[1]; rgba[i+2] = ORANGE[2]; rgba[i+3] = 255;
+      } else if (ch === 'W') {
+        rgba[i] = WHITE[0]; rgba[i+1] = WHITE[1]; rgba[i+2] = WHITE[2]; rgba[i+3] = 255;
+      } else {
+        // Transparent area - fill with dark for visibility
+        rgba[i] = 30; rgba[i+1] = 30; rgba[i+2] = 30; rgba[i+3] = 0;
+      }
+    }
+  }
+
+  const icon = nativeImage.createFromBitmap(rgba, { width: size, height: size });
 
   tray = new Tray(icon);
   tray.setToolTip('Mouse Spotlight');
@@ -252,8 +291,10 @@ function openSettingsWindow() {
   }
 
   settingsWindow = new BrowserWindow({
-    width: 480,
-    height: 400,
+    width: 440,
+    height: 380,
+    transparent: true,
+    frame: false,
     resizable: false,
     minimizable: false,
     maximizable: false,

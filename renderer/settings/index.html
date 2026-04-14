@@ -2,26 +2,53 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Mouse Spotlight 设置</title>
+  <title>Mouse Spotlight - 设置</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="settings-container">
-    <h1 class="settings-title">设置</h1>
+    <!-- Header -->
+    <div class="settings-header" style="-webkit-app-region: drag;">
+      <div class="header-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </div>
+      <h1 class="settings-title">设置</h1>
+      <button class="close-btn" id="closeBtn" style="-webkit-app-region: no-drag;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
 
-    <!-- Shortcuts section -->
+    <!-- Shortcuts -->
     <section class="settings-section">
       <h2 class="section-title">快捷键</h2>
 
       <div class="shortcut-item">
-        <label>切换演示模式</label>
+        <div class="shortcut-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span>切换演示模式</span>
+        </div>
         <div class="shortcut-input" id="shortcutPresentation" tabindex="0">
           <span class="shortcut-keys">点击录入</span>
         </div>
       </div>
 
       <div class="shortcut-item">
-        <label>切换绘制模式</label>
+        <div class="shortcut-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          <span>切换绘制模式</span>
+        </div>
         <div class="shortcut-input" id="shortcutDrawing" tabindex="0">
           <span class="shortcut-keys">点击录入</span>
         </div>
@@ -32,7 +59,9 @@
     <section class="settings-section">
       <h2 class="section-title">淡出时间</h2>
       <div class="slider-item">
+        <span class="slider-label">快</span>
         <input type="range" id="fadeSlider" min="500" max="5000" step="100" value="2000">
+        <span class="slider-label">慢</span>
         <span class="slider-value" id="fadeValue">2.0 秒</span>
       </div>
     </section>
