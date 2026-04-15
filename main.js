@@ -291,14 +291,13 @@ function openSettingsWindow() {
   }
 
   settingsWindow = new BrowserWindow({
-    width: 440,
-    height: 380,
-    transparent: true,
-    frame: false,
+    width: 400,
+    height: 320,
     resizable: false,
     minimizable: false,
     maximizable: false,
     title: 'Mouse Spotlight 设置',
+    backgroundColor: '#ffffff',
     webPreferences: {
       preload: path.join(__dirname, 'preload', 'settings-preload.js'),
       nodeIntegration: false,
