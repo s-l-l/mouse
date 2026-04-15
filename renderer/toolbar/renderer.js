@@ -2,11 +2,13 @@
   'use strict';
 
   const drawToggle = document.getElementById('drawToggle');
+  const pinToggle = document.getElementById('pinToggle');
   const clearBtn = document.getElementById('clearBtn');
   const exitBtn = document.getElementById('exitBtn');
   const drawingStatus = document.getElementById('drawingStatus');
 
   let isDrawingEnabled = false;
+  let isPinned = false;
 
   // ===== Mode buttons =====
 
@@ -42,6 +44,12 @@
 
   drawToggle.addEventListener('click', () => {
     window.toolbarAPI.toggleDrawing();
+  });
+
+  pinToggle.addEventListener('click', () => {
+    isPinned = !isPinned;
+    pinToggle.classList.toggle('pinned', isPinned);
+    window.toolbarAPI.setDrawSettings({ keepShapes: isPinned });
   });
 
   clearBtn.addEventListener('click', () => {

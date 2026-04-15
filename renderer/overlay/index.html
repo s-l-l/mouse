@@ -12,7 +12,9 @@
       user-select: none;
       -webkit-user-select: none;
     }
-    body.drawing { cursor: crosshair; }
+    body.drawing {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='32' viewBox='0 0 24 32'%3E%3Cpath d='M5 2l14 12h-8l4 10-3 1-4-10-3 7z' fill='%23FF6B35' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 5 2, auto;
+    }
     body:not(.drawing) { cursor: default; }
     #fadeCanvas, #drawCanvas {
       position: fixed; top: 0; left: 0;

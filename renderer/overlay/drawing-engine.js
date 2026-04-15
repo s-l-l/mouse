@@ -13,7 +13,7 @@ class DrawingEngine {
     // Drawing settings
     this.color = '#FF6B35';
     this.lineWidth = 4;
-    this.mode = 'pen'; // 'pen', 'line', 'rect'
+    this.mode = 'pen'; // 'pen', 'line', 'rect', 'arrow'
 
     // Current drawing state
     this.isDrawing = false;
@@ -23,7 +23,9 @@ class DrawingEngine {
 
     // Fading shapes
     this.fadeShapes = [];
+    this.keepShapes = []; // shapes that don't fade
     this.fadeDuration = 2000; // 2 seconds
+    this.keepMode = false; // when true, shapes persist
 
     // Animation
     this.animationId = null;
@@ -64,14 +66,20 @@ class DrawingEngine {
     this.mode = mode;
   }
 
+  setKeepMode(keep) {
+    this.keepMode = keep;
+  }
+
   startDrawing(x, y) {
     this.isDrawing = true;
     this.startPoint = { x, y };
     this.points = [{ x, y }];
 
+    const color = this.color;
+
     this.currentShape = {
       type: this.mode,
-      color: this.color,
+      color: color,
       lineWidth: this.lineWidth,
       points: [{ x, y }],
       opacity: 1
@@ -90,6 +98,8 @@ class DrawingEngine {
       this.drawLinePreview(x, y);
     } else if (this.mode === 'rect') {
       this.drawRectPreview(x, y);
+    } else if (this.mode === 'arrow') {
+      this.drawArrowPreview(x, y);
     }
   }
 
@@ -185,6 +195,54 @@ class DrawingEngine {
     ];
   }
 
+  // ---- Arrow ----
+
+  drawArrowPreview(x, y) {
+    this.clearDrawCanvas();
+    const start = this.startPoint;
+
+    const dx = x - start.x;
+    const dy = y - start.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 5) return;
+
+    const headLen = this.lineWidth * 5;
+    const angle = Math.atan2(dy, dx);
+    const hw = headLen * 0.45;
+
+    const baseX = x - headLen * Math.cos(angle);
+    const baseY = y - headLen * Math.sin(angle);
+
+    const ctx = this.drawCtx;
+    ctx.strokeStyle = this.color;
+    ctx.fillStyle = this.color;
+    ctx.lineWidth = this.lineWidth;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Shaft stops at arrow base
+    ctx.beginPath();
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(baseX, baseY);
+    ctx.stroke();
+
+    // Arrowhead triangle
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(
+      baseX + hw * Math.cos(angle - Math.PI / 2),
+      baseY + hw * Math.sin(angle - Math.PI / 2)
+    );
+    ctx.lineTo(
+      baseX - hw * Math.cos(angle - Math.PI / 2),
+      baseY - hw * Math.sin(angle - Math.PI / 2)
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    this.currentShape.points = [start, { x, y }];
+  }
+
   // ---- End / Clear ----
 
   endDrawing() {
@@ -192,10 +250,14 @@ class DrawingEngine {
     this.isDrawing = false;
 
     if (this.currentShape && this.hasValidShape()) {
-      this.fadeShapes.push({
-        ...this.currentShape,
-        startTime: Date.now()
-      });
+      if (this.keepMode) {
+        this.keepShapes.push({ ...this.currentShape });
+      } else {
+        this.fadeShapes.push({
+          ...this.currentShape,
+          startTime: Date.now()
+        });
+      }
     }
 
     this.currentShape = null;
@@ -211,7 +273,7 @@ class DrawingEngine {
     if (shape.type === 'pen') {
       return shape.points.length > 2;
     }
-    if (shape.type === 'line' || shape.type === 'rect') {
+    if (shape.type === 'line' || shape.type === 'rect' || shape.type === 'arrow') {
       return shape.points.length === 2;
     }
     return false;
@@ -229,6 +291,7 @@ class DrawingEngine {
     this.clearDrawCanvas();
     this.clearFadeCanvas();
     this.fadeShapes = [];
+    this.keepShapes = [];
   }
 
   // ---- Fade animation loop ----
@@ -246,9 +309,14 @@ class DrawingEngine {
   }
 
   updateFadeShapes() {
-    if (this.fadeShapes.length === 0) return;
-
     this.clearFadeCanvas();
+
+    // Draw persistent shapes (no fade)
+    for (const shape of this.keepShapes) {
+      this.drawShape(this.fadeCtx, { ...shape, opacity: 1 });
+    }
+
+    if (this.fadeShapes.length === 0) return;
 
     const now = Date.now();
     this.fadeShapes = this.fadeShapes.filter(shape => {
@@ -306,6 +374,40 @@ class DrawingEngine {
       ctx.rect(rx, ry, rw, rh);
       ctx.fill();
       ctx.stroke();
+
+    } else if (shape.type === 'arrow' && points.length === 2) {
+      const [p1, p2] = points;
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const angle = Math.atan2(dy, dx);
+
+      const headLen = shape.lineWidth * 5;
+      const hw = headLen * 0.45;
+
+      const baseX = p2.x - headLen * Math.cos(angle);
+      const baseY = p2.y - headLen * Math.sin(angle);
+
+      ctx.fillStyle = shape.color;
+
+      // Shaft stops at arrow base
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(baseX, baseY);
+      ctx.stroke();
+
+      // Arrowhead triangle
+      ctx.beginPath();
+      ctx.moveTo(p2.x, p2.y);
+      ctx.lineTo(
+        baseX + hw * Math.cos(angle - Math.PI / 2),
+        baseY + hw * Math.sin(angle - Math.PI / 2)
+      );
+      ctx.lineTo(
+        baseX - hw * Math.cos(angle - Math.PI / 2),
+        baseY - hw * Math.sin(angle - Math.PI / 2)
+      );
+      ctx.closePath();
+      ctx.fill();
     }
 
     ctx.restore();

@@ -80,6 +80,14 @@ body {
   box-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
 }
 
+/* Pin toggle */
+.pin-toggle { transition: all 0.2s ease; }
+.pin-toggle.pinned {
+  background: rgba(46, 196, 182, 0.25);
+  color: #2EC4B6;
+  box-shadow: 0 0 8px rgba(46, 196, 182, 0.3);
+}
+
 .action-btn:hover { background: rgba(255, 255, 255, 0.15); }
 .exit-btn:hover { background: rgba(230, 57, 70, 0.25); color: #E63946; }
 

@@ -63,6 +63,7 @@
     if (s.mode !== undefined) engine.setMode(s.mode);
     if (s.color !== undefined) engine.setColor(s.color);
     if (s.lineWidth !== undefined) engine.setLineWidth(s.lineWidth);
+    if (s.keepShapes !== undefined) engine.setKeepMode(s.keepShapes);
     if (s.clear) engine.clearAll();
   });
 

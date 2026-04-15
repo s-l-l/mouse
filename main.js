@@ -256,7 +256,7 @@ function togglePresentationMode() {
   isPresentationMode = !isPresentationMode;
 
   if (isPresentationMode) {
-    isDrawingEnabled = false;
+    isDrawingEnabled = true;
     updateOverlayCapture();
     if (overlayWindow && !overlayWindow.isVisible()) overlayWindow.show();
     if (toolbarWindow && !toolbarWindow.isVisible()) toolbarWindow.show();
