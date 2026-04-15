@@ -292,10 +292,11 @@ function openSettingsWindow() {
 
   settingsWindow = new BrowserWindow({
     width: 400,
-    height: 320,
+    height: 360,
     resizable: false,
     minimizable: false,
     maximizable: false,
+    autoHideMenuBar: true,
     title: 'Mouse Spotlight 设置',
     backgroundColor: '#ffffff',
     webPreferences: {
@@ -304,6 +305,7 @@ function openSettingsWindow() {
       contextIsolation: true,
     }
   });
+  settingsWindow.setMenuBarVisibility(false);
 
   settingsWindow.loadFile(path.join(__dirname, 'renderer', 'settings', 'index.html'));
   settingsWindow.on('closed', () => { settingsWindow = null; });
